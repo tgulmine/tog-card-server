@@ -7,6 +7,8 @@ import { monitor } from "@colyseus/monitor";
 
 import { MyRoom } from "./MyRoom";
 
+import { Teste } from "./teste";
+
 const port = Number(process.env.PORT || 2567);
 const app = express()
 
@@ -34,3 +36,6 @@ app.use("/colyseus", monitor());
 
 gameServer.listen(port);
 console.log(`Listening on ws://localhost:${ port }`)
+
+const test = new Teste;
+test.printCard();

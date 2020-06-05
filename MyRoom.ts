@@ -4,7 +4,7 @@ export class MyRoom extends Room {
 
   onCreate (options: any) {
 
-    this.setState(new State());
+    /* this.setState(new State()); */
 
     this.onMessage("type", (client, message) => {
       // handle "type" message
