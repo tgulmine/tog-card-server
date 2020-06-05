@@ -1,0 +1,9 @@
+{
+    "name": "Rak Wraithraiser",
+    "position": "Spear Bearer",
+    "affiliations": ["Team Baam"],
+    "shinsoo": 4,
+    "int": 4,
+    "str": 10,
+    "speed": 7
+}

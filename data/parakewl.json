@@ -1,0 +1,9 @@
+{
+    "name": "Parakewl",
+    "position": "Spear Bearer",
+    "affiliations": ["Spear Revolution"],
+    "shinsoo": 2,
+    "int": 3,
+    "str": 6,
+    "speed": 6
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Edin Dan",
+    "position": "Scout",
+    "affiliations": ["Team Khun"],
+    "shinsoo": 4,
+    "int": 7,
+    "str": 6,
+    "speed": 10
+}

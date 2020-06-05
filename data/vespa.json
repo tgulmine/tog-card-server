@@ -1,0 +1,9 @@
+{
+    "name": "Vespa",
+    "position": "Scout",
+    "affiliations": ["Team Ship"],
+    "shinsoo": 6,
+    "int": 6,
+    "str": 7,
+    "speed": 8
+}

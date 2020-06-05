@@ -1,0 +1,9 @@
+{
+    "name": "Khun Ran",
+    "position": "Fisherman",
+    "affiliations": ["Team Khun"],
+    "shinsoo": 8,
+    "int": 8,
+    "str": 7,
+    "speed": 9
+}

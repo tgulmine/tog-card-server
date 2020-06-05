@@ -1,0 +1,9 @@
+{
+    "name": "Mad Dog",
+    "position": "Fisherman",
+    "affiliations": ["Fug"],
+    "shinsoo": 7,
+    "int": 7,
+    "str": 10,
+    "speed": 8
+}

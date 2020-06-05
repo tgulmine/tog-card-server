@@ -1,0 +1,9 @@
+{
+    "name": "Shibisu",
+    "position": "Scout",
+    "affiliations": ["Team Ship"],
+    "shinsoo": 3,
+    "int": 8,
+    "str": 5,
+    "speed": 7
+}

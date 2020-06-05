@@ -1,0 +1,9 @@
+{
+    "name": "Horyang",
+    "position": "Fisherman",
+    "affiliations": ["Team Tangsooyook", "Devil's Arm"],
+    "shinsoo": 7,
+    "int": 6,
+    "str": 9,
+    "speed": 6
+}

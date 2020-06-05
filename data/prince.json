@@ -1,0 +1,9 @@
+{
+    "name": "Prince",
+    "position": "Light Bearer",
+    "affiliations": ["Team Tangsooyook"],
+    "shinsoo": 7,
+    "int": 7,
+    "str": 5,
+    "speed": 6
+}
