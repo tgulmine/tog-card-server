@@ -35,7 +35,6 @@ import xiaxia from '../data/regulars/xiaxia.json';
 export class GetRegulars {
   deck: Array<RegularCard>;
 
-  
   constructor() {
     this.deck = [];
   }
@@ -43,6 +42,17 @@ export class GetRegulars {
   addCard(reg: any) {
     this.deck.push(new RegularCard(reg.name, reg.position, reg.affiliations, reg.shinsoo, reg.int, reg.str, reg.speed));
   }
+
+  shuffleDeck() {
+    let location1, location2, tmp;
+    for (let i = 0; i < 1000; i++) {
+        location1 = Math.floor((Math.random() * this.deck.length));
+        location2 = Math.floor((Math.random() * this.deck.length));
+        tmp = this.deck[location1];
+        this.deck[location1] = this.deck[location2];
+        this.deck[location2] = tmp;
+     }
+ }
 
   createDeck()  {
     this.addCard(anaak);

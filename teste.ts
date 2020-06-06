@@ -15,6 +15,7 @@ export class Teste {
     getreg = new GetRegulars();
     printCard() {
         this.getreg.createDeck();
+        this.getreg.shuffleDeck();
         this.getreg.printDeck();
     }
 }
