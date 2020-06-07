@@ -29,7 +29,7 @@ import vespa from '../data/regulars/vespa.json';
 import wangnam from '../data/regulars/wangnam.json';
 import xiaxia from '../data/regulars/xiaxia.json';
 
-import { RegularCard } from './regular-card';
+import { RegularCard } from './regularCard';
 
 export class FullRegularDeck {
   deck: Array<RegularCard>;

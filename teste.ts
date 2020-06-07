@@ -1,12 +1,18 @@
-import { RegularCard } from './game-logic/regular-card';
+import { RegularCard } from './game-logic/regularCard';
 import { FullRegularDeck } from './game-logic/fullRegularDeck';
+import { RankerCard } from './game-logic/rankerCard';
+import { FullRankerDeck } from './game-logic/fullRankerDeck';
 
 export class Teste {
-    fullDeck = new FullRegularDeck();
-    
+    RegularDeck = new FullRegularDeck();
+    RankerDeck = new FullRankerDeck();
+
     printCard() {
-        this.fullDeck.createDeck();
-        this.fullDeck.shuffleDeck();
-        this.fullDeck.printDeck();
+        this.RegularDeck.createDeck();
+        this.RegularDeck.shuffleDeck();
+        this.RegularDeck.printDeck();
+        this.RankerDeck.createDeck();
+        this.RankerDeck.shuffleDeck();
+        this.RankerDeck.printDeck();
     }
 }

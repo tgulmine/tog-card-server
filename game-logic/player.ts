@@ -1,4 +1,4 @@
-import { RegularCard } from './regular-card';
+import { RegularCard } from './regularCard';
 
 export class Player {
     playerName: string;
