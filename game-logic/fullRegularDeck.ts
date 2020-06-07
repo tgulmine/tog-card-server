@@ -1,5 +1,3 @@
-import { RegularCard } from './regular-card';
-
 import anaak from '../data/regulars/anaak.json';
 import arkraptor from '../data/regulars/arkraptor.json';
 import baam from '../data/regulars/baam.json';
@@ -31,8 +29,9 @@ import vespa from '../data/regulars/vespa.json';
 import wangnam from '../data/regulars/wangnam.json';
 import xiaxia from '../data/regulars/xiaxia.json';
 
+import { RegularCard } from './regular-card';
 
-export class GetRegulars {
+export class FullRegularDeck {
   deck: Array<RegularCard>;
 
   constructor() {

@@ -1,5 +1,6 @@
 {
     "name": "Lero-Ro",
     "skill": "Shinsoo Barrier",
-    "description": "Creates a shinsoo barrier changing the drawn test to a shinsoo test. Can't be used if it's already a shinsoo test."
+    "description": "Creates a shinsoo barrier changing the drawn test to a shinsoo test. Can't be used if it's already a shinsoo test.",
+    "cooldown": 2
 }

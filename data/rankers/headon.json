@@ -1,5 +1,6 @@
 {
     "name": "Headon",
     "skill": "Pick a Regular",
-    "description": "Buy an additional regular card."
+    "description": "Buy an additional regular card.",
+    "cooldown": 2
 }

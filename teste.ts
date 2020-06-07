@@ -1,21 +1,12 @@
 import { RegularCard } from './game-logic/regular-card';
-import { GetRegulars } from './game-logic/get-regulars';
+import { FullRegularDeck } from './game-logic/fullRegularDeck';
 
 export class Teste {
-    xiaxia = new RegularCard("Xia Xia", "Light Bearer", ["Fug"], 5, 7, 6, 4);
-
-    printCard2()  {
-        console.log(this.xiaxia);
-    }
-
-    anak2: RegularCard;
-    bam2: RegularCard;
-    deck2: Array<RegularCard>;
-
-    getreg = new GetRegulars();
+    fullDeck = new FullRegularDeck();
+    
     printCard() {
-        this.getreg.createDeck();
-        this.getreg.shuffleDeck();
-        this.getreg.printDeck();
+        this.fullDeck.createDeck();
+        this.fullDeck.shuffleDeck();
+        this.fullDeck.printDeck();
     }
 }

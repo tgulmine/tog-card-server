@@ -1,5 +1,6 @@
 {
     "name": "Quant Blitz",
     "skill": "Tactical Retreat",
-    "description": "Give up on this round, so that the opponent can only buy 2 cards on the next round. Must be used before the cards are revealed."
+    "description": "Give up on this round, so that the opponent can only buy 2 cards on the next round. Must be used before the cards are revealed.",
+    "cooldown": 2
 }

@@ -1,5 +1,6 @@
 {
     "name": "Hansung Yu",
     "skill": "Caffeine Boost",
-    "description": "Give coffee to one of the regulars allowing him to continue on the next round."
+    "description": "Give coffee to one of the regulars allowing him to continue on the next round.",
+    "cooldown": 2
 }

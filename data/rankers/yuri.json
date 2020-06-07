@@ -1,5 +1,6 @@
 {
     "name": "Yuri Jahad",
     "skill": "Risk / Reward",
-    "description": "Takes 2 of your own regular's main test attribute, but if you still win, deal double damage."
+    "description": "Takes 2 of your own regular's main test attribute, but if you still win, deal double damage.",
+    "cooldown": 2
 }

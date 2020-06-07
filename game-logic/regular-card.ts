@@ -1,5 +1,3 @@
-import { Room, Client } from "colyseus";
-
 export class RegularCard {
   name: string;
   position: string;
