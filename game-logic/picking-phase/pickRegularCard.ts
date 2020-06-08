@@ -1,17 +1,20 @@
 import { RegularCard } from "../regularCard";
 
-export class PickRegularCard extends RegularCard {
+export class PickRegularCard {
+  regularCard: RegularCard
   isActive: boolean;
 
-  constructor(name: string, position: string, affiliations: string[], 
-    shinsoo: Number, int: Number, str: Number, speed: Number) {
-    super(name, position, affiliations, 
-      shinsoo, int, str, speed);
+  constructor(regularCard: RegularCard) {
+    this.regularCard = regularCard;
     this.isActive = false;
   }
 
   onClick() {
     this.isActive = !this.isActive;
+  }
+
+  toString() {
+    return this.regularCard.name;
   }
 
 }

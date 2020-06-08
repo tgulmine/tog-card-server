@@ -10,8 +10,8 @@ export class PickBoard {
     rankDeck: FullRankerDeck;
     tempDeck1: Array<PickRegularCard>;
     tempDeck2: Array<PickRegularCard>;
-    deckGroup1: Array<Array<RegularCard>>;
-    deckGroup2: Array<Array<RegularCard>>;
+    deckGroup1: Array<Array<PickRegularCard>>;
+    deckGroup2: Array<Array<PickRegularCard>>;
 
     constructor() {
         this.players = [];
@@ -32,18 +32,38 @@ export class PickBoard {
     }
 
     phase1() {
-        /* this.tempDeck1 = this.regDeck.deck.slice(0,14);
-        this.tempDeck2 = this.regDeck.deck.slice(15,29); */
+        this.regDeck.deck.slice(0,15).forEach(card => {
+            this.tempDeck1.push(new PickRegularCard(card))
+        });
+        this.regDeck.deck.slice(15,30).forEach(card => {
+            this.tempDeck2.push(new PickRegularCard(card))
+        });
 
-        this.deckGroup1[0] = this.tempDeck1.slice(0,2);
-        this.deckGroup1[1] = this.tempDeck1.slice(3,5);
-        this.deckGroup1[2] = this.tempDeck1.slice(6,8);
-        this.deckGroup1[3] = this.tempDeck1.slice(9,11);
-        this.deckGroup1[4] = this.tempDeck1.slice(12,14);
-        this.deckGroup2[0] = this.tempDeck2.slice(0,2);
-        this.deckGroup2[1] = this.tempDeck2.slice(3,5);
-        this.deckGroup2[2] = this.tempDeck2.slice(6,8);
-        this.deckGroup2[3] = this.tempDeck2.slice(9,11);
-        this.deckGroup2[4] = this.tempDeck2.slice(12,14);
+        console.log(this.tempDeck1.length, this.tempDeck2.length);
+
+        this.deckGroup1 = [];
+        for (let i = 0; i < this.tempDeck1.length; i = i+3) {
+           console.log('pushing', {i})
+          this.deckGroup1.push(this.tempDeck1.slice(i,i+3));
+        }
+        this.deckGroup2 = [];
+        for (let i = 0; i < this.tempDeck2.length; i = i+3) {
+          this.deckGroup2.push(this.tempDeck2.slice(i,i+3));
+        }
+
+        console.log({deck: this.deckGroup1, activeCards: this.totalCardsActivesInDeckGroup(this.deckGroup1)})
+        console.log(this.deckGroup1[0][0].toString())
+    }
+
+    totalCardsActivesInDeckGroup(deckGroup: Array<Array<PickRegularCard>>): number {
+        let total = 0;
+        deckGroup.forEach(cardGroup => {
+            total +=  this.activeCardsInCardGroup(cardGroup)
+        });
+        return total;
+    }
+
+    activeCardsInCardGroup(cardGroup: Array<PickRegularCard>) {
+        return cardGroup.filter(card => card.isActive).length
     }
 }
