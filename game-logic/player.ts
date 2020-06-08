@@ -1,11 +1,14 @@
 import { RegularCard } from './regularCard';
+import { RankerCard } from './rankerCard';
 
 export class Player {
     playerName: string;
-    playerCards: Array<RegularCard>;
+    regularDeck: Array<RegularCard>;
+    rankerDeck: Array<RankerCard>;
 
     constructor(name: string) {
         this.playerName = name;
-        this.playerCards = [];
+        this.regularDeck = [];
+        this.rankerDeck = [];
     }
 }

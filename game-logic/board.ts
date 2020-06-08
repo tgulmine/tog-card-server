@@ -18,7 +18,5 @@ export class Board {
         d.shuffleDeck();    
         //picking phase
         //split deck
-        this.players[0].playerCards = d.deck.slice(0,14);
-        this.players[1].playerCards = d.deck.slice(15,29);
     }
 }
