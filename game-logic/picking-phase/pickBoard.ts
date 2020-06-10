@@ -61,7 +61,6 @@ export class PickBoard {
         //Put 3 cards in 5 card groups for each player
         this.deckGroup1 = [];
         for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP1) {
-           console.log('pushing', {i})
           this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP1));
         }
         this.deckGroup2 = [];
@@ -95,6 +94,14 @@ export class PickBoard {
         return cardGroup.filter(card => card.isActive).length;
     }
 
+    pushActiveCardsToDeck(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
+        deckGroup.forEach(cardGroup => {
+            cardGroup.forEach(card => {
+                if(card.isActive) player.regularDeck.push(card.regularCard);
+            })
+        });
+    }
+
     printDeckGroup(deckGroup: Array<Array<PickRegularCard>>) {
         deckGroup.forEach((cardGroup, index) => {
             console.log('Group ' + (index+1) + ': ' + cardGroup);
@@ -104,6 +111,7 @@ export class PickBoard {
     confirmPhase1(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
         if (this.totalCardsActivesInDeckGroup(deckGroup) === this.regCardsPickedP1 &&
             this.checkMinActiveCards(deckGroup)) {
+                this.pushActiveCardsToDeck(player, deckGroup);
                 this.checkIfPlayersConfirmed(player);
         }   else {
             //retorna erro 'vc precisa escolher 7 cartas, com ao menos 1 de cada grupo' sl ou mostra separado
