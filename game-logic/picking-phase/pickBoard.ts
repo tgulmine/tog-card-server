@@ -5,7 +5,8 @@ import { RegularCard } from '../regularCard';
 import { PickRegularCard } from './pickRegularCard'
 
 export class PickBoard {
-    players: Array<Player>;
+    player1: Player;
+    player2: Player;
     regDeck: FullRegularDeck;
     rankDeck: FullRankerDeck;
     tempDeck1: Array<PickRegularCard>;
@@ -18,8 +19,12 @@ export class PickBoard {
     regCardsPickedP1: number;
     regCardsPickedP2: number;
 
+    p1confirmed: boolean;
+    p2confirmed: boolean;
+
     constructor() {
-        this.players = [];
+        //this.player1 = null;
+        //this.player2 = null;
         this.regDeck = new FullRegularDeck;
         this.rankDeck = new FullRankerDeck;
         this.tempDeck1 = [];
@@ -28,11 +33,13 @@ export class PickBoard {
         this.groupSizeP2 = 2;
         this.regCardsPickedP1 = 7;
         this.regCardsPickedP2 = 5;
+        this.p1confirmed = false;
+        this.p2confirmed = false;
     }
     
     start(playerOneName: string, playerTwoName: string) {
-        this.players.push(new Player(playerOneName));
-        this.players.push(new Player(playerTwoName));
+        this.player1 = new Player(playerOneName);
+        this.player2 = new Player(playerTwoName);
         this.regDeck.createDeck();
         this.regDeck.shuffleDeck(); 
         this.rankDeck.createDeck();
@@ -64,7 +71,6 @@ export class PickBoard {
 
         console.log({deck: this.deckGroup1.toString(), activeCards: this.totalCardsActivesInDeckGroup(this.deckGroup1), 
             checkMinCards: this.checkMinActiveCards(this.deckGroup1)})
-        console.log(this.deckGroup1[0][0].toString())
         this.printDeckGroup(this.deckGroup1);
     }
 
@@ -93,5 +99,28 @@ export class PickBoard {
         deckGroup.forEach((cardGroup, index) => {
             console.log('Group ' + (index+1) + ': ' + cardGroup);
         });
+    }
+
+    confirmPhase1(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
+        if (this.totalCardsActivesInDeckGroup(deckGroup) === this.regCardsPickedP1 &&
+            this.checkMinActiveCards(deckGroup)) {
+                this.checkIfPlayersConfirmed(player);
+        }   else {
+            //retorna erro 'vc precisa escolher 7 cartas, com ao menos 1 de cada grupo' sl ou mostra separado
+        }
+    }
+
+    checkIfPlayersConfirmed(player: Player) {
+        if (player === this.player1) this.p1confirmed = true;
+        else this.p2confirmed = true;
+        if (this.p1confirmed && this.p2confirmed) {
+            this.p1confirmed = false;
+            this.p2confirmed = false;
+            this.phase2();
+        }
+    }
+
+    phase2() {
+        //rs
     }
 }
