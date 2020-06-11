@@ -1,18 +1,22 @@
 import { Player } from '../player';
 import { FullRegularDeck } from '../fullRegularDeck';
 import { FullRankerDeck } from '../fullRankerDeck';
-import { RegularCard } from '../regularCard';
 import { PickRegularCard } from './pickRegularCard'
+import { PickRankerCard } from './pickRankerCard'
 
 export class PickBoard {
     player1: Player;
     player2: Player;
     regDeck: FullRegularDeck;
     rankDeck: FullRankerDeck;
-    tempDeck1: Array<PickRegularCard>;
-    tempDeck2: Array<PickRegularCard>;
-    deckGroup1: Array<Array<PickRegularCard>>;
-    deckGroup2: Array<Array<PickRegularCard>>;
+    tempRegDeck1: Array<PickRegularCard>;
+    tempRegDeck2: Array<PickRegularCard>;
+    tempRankDeck1: Array<PickRankerCard>;
+    tempRankDeck2: Array<PickRankerCard>;
+    deckRegGroup1: Array<Array<PickRegularCard>>;
+    deckRegGroup2: Array<Array<PickRegularCard>>;
+    deckRankGroup1: Array<Array<PickRankerCard>>;
+    deckRankGroup2: Array<Array<PickRankerCard>>;
 
     groupSizeP1: number;
     groupSizeP2: number;
@@ -27,8 +31,10 @@ export class PickBoard {
         //this.player2 = null;
         this.regDeck = new FullRegularDeck;
         this.rankDeck = new FullRankerDeck;
-        this.tempDeck1 = [];
-        this.tempDeck2 = [];
+        this.tempRegDeck1 = [];
+        this.tempRegDeck2 = [];
+        this.tempRankDeck1 = [];
+        this.tempRankDeck2 = [];
         this.groupSizeP1 = 3;
         this.groupSizeP2 = 2;
         this.regCardsPickedP1 = 7;
@@ -50,87 +56,87 @@ export class PickBoard {
     phase1() {
         //Fill temp decks with half the whole deck, 15 cards each
         this.regDeck.deck.slice(0,this.regDeck.deck.length/2).forEach(card => {
-            this.tempDeck1.push(new PickRegularCard(card))
+            this.tempRegDeck1.push(new PickRegularCard(card))
         });
         this.regDeck.deck.slice(this.regDeck.deck.length/2,this.regDeck.deck.length).forEach(card => {
-            this.tempDeck2.push(new PickRegularCard(card))
+            this.tempRegDeck2.push(new PickRegularCard(card))
         });
 
-        console.log(this.tempDeck1.length, this.tempDeck2.length);
+        console.log(this.tempRegDeck1.length, this.tempRegDeck2.length);
 
         //Put 3 cards in 5 card groups for each player
-        this.deckGroup1 = [];
-        for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP1) {
-          this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP1));
+        this.deckRegGroup1 = [];
+        for (let i = 0; i < this.tempRegDeck1.length; i = i+this.groupSizeP1) {
+          this.deckRegGroup1.push(this.tempRegDeck1.slice(i,i+this.groupSizeP1));
         }
-        this.deckGroup2 = [];
-        for (let i = 0; i < this.tempDeck2.length; i = i+this.groupSizeP1) {
-          this.deckGroup2.push(this.tempDeck2.slice(i,i+this.groupSizeP1));
+        this.deckRegGroup2 = [];
+        for (let i = 0; i < this.tempRegDeck2.length; i = i+this.groupSizeP1) {
+          this.deckRegGroup2.push(this.tempRegDeck2.slice(i,i+this.groupSizeP1));
         }
 
-        console.log({deck: this.deckGroup1.toString(), activeCards: this.totalCardsActivesInDeckGroup(this.deckGroup1), 
-            checkMinCards: this.checkMinActiveCards(this.deckGroup1)})
-        this.printDeckGroup(this.deckGroup1);
+        console.log({deck: this.deckRegGroup1.toString(), activeCards: this.totalRegCardsActivesIndeckRegGroup(this.deckRegGroup1), 
+            checkMinCards: this.checkMinActiveRegCards(this.deckRegGroup1)})
+        this.printRegdeckRegGroup(this.deckRegGroup1);
     }
 
-    totalCardsActivesInDeckGroup(deckGroup: Array<Array<PickRegularCard>>): number {
+    totalRegCardsActivesIndeckRegGroup(deckRegGroup: Array<Array<PickRegularCard>>): number {
         let total = 0;
-        deckGroup.forEach(cardGroup => {
-            total +=  this.activeCardsInCardGroup(cardGroup)
+        deckRegGroup.forEach(cardGroup => {
+            total +=  this.activeRegCardsInCardGroup(cardGroup)
         });
         return total;
     }
 
-    checkMinActiveCards(deckGroup: Array<Array<PickRegularCard>>): boolean {
+    checkMinActiveRegCards(deckRegGroup: Array<Array<PickRegularCard>>): boolean {
         let total = 0;
-        deckGroup.forEach(cardGroup => {
-            if(this.activeCardsInCardGroup(cardGroup) > 0) total++;
+        deckRegGroup.forEach(cardGroup => {
+            if(this.activeRegCardsInCardGroup(cardGroup) > 0) total++;
         });
-        if (total === deckGroup.length) return true;
+        if (total === deckRegGroup.length) return true;
         else return false;
     }
 
-    activeCardsInCardGroup(cardGroup: Array<PickRegularCard>) {
+    activeRegCardsInCardGroup(cardGroup: Array<PickRegularCard>) {
         return cardGroup.filter(card => card.isActive).length;
     }
 
-    pushActiveCardsToDeck(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
-        deckGroup.forEach(cardGroup => {
+    pushActiveRegCardsToDeck(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+        deckRegGroup.forEach(cardGroup => {
             cardGroup.forEach(card => {
                 if(card.isActive) {
                     player.regularDeck.push(card.regularCard);
                     if (player === this.player1) {
-                        var index = this.tempDeck1.indexOf( card );
-                        this.tempDeck1.splice(index, 0);
+                        var index = this.tempRegDeck1.indexOf( card );
+                        this.tempRegDeck1.splice(index, 0);
                     } else {
-                        var index = this.tempDeck2.indexOf( card );
-                        this.tempDeck2.splice(index, 0);
+                        var index = this.tempRegDeck2.indexOf( card );
+                        this.tempRegDeck2.splice(index, 0);
                     }
                 }
             })
         });
     }
 
-    printDeckGroup(deckGroup: Array<Array<PickRegularCard>>) {
-        deckGroup.forEach((cardGroup, index) => {
+    printRegdeckRegGroup(deckRegGroup: Array<Array<PickRegularCard>>) {
+        deckRegGroup.forEach((cardGroup, index) => {
             console.log('Group ' + (index+1) + ': ' + cardGroup);
         });
     }
 
-    confirmPhase1(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
-        if (this.totalCardsActivesInDeckGroup(deckGroup) === this.regCardsPickedP1 &&
-            this.checkMinActiveCards(deckGroup)) {
-                this.pushActiveCardsToDeck(player, deckGroup);
+    confirmPhase1(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+        if (this.totalRegCardsActivesIndeckRegGroup(deckRegGroup) === this.regCardsPickedP1 &&
+            this.checkMinActiveRegCards(deckRegGroup)) {
+                this.pushActiveRegCardsToDeck(player, deckRegGroup);
                 this.checkIfPlayersConfirmed(player);
         }   else {
             //retorna erro 'vc precisa escolher 7 cartas, com ao menos 1 de cada grupo' sl ou mostra separado
         }
     }
 
-    confirmPhase2(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
-        if (this.totalCardsActivesInDeckGroup(deckGroup) === this.regCardsPickedP2 &&
-            this.checkMinActiveCards(deckGroup)) {
-                this.pushActiveCardsToDeck(player, deckGroup);
+    confirmPhase2(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+        if (this.totalRegCardsActivesIndeckRegGroup(deckRegGroup) === this.regCardsPickedP2 &&
+            this.checkMinActiveRegCards(deckRegGroup)) {
+                this.pushActiveRegCardsToDeck(player, deckRegGroup);
                 this.checkIfPlayersConfirmed(player);
         }   else {
             //retorna erro 'vc precisa escolher 7 cartas, com ao menos 1 de cada grupo' sl ou mostra separado
@@ -148,26 +154,48 @@ export class PickBoard {
     }
 
     phase2() {
-        console.log(this.tempDeck1.length, this.tempDeck2.length);
+        console.log(this.tempRegDeck1.length, this.tempRegDeck2.length);
 
-        let tempDeckSwitch = this.tempDeck1;
-        this.tempDeck1 = this.tempDeck2;
-        this.tempDeck2 = tempDeckSwitch;
+        let tempRegDeckSwitch = this.tempRegDeck1;
+        this.tempRegDeck1 = this.tempRegDeck2;
+        this.tempRegDeck2 = tempRegDeckSwitch;
 
         //Put 2 cards in 4 card groups for each player, switching temp decks
-        this.deckGroup1 = [];
-        for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP2) {
-          this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP2));
+        this.deckRegGroup1 = [];
+        for (let i = 0; i < this.tempRegDeck1.length; i = i+this.groupSizeP2) {
+          this.deckRegGroup1.push(this.tempRegDeck1.slice(i,i+this.groupSizeP2));
         }
-        this.deckGroup2 = [];
-        for (let i = 0; i < this.tempDeck2.length; i = i+this.groupSizeP2) {
-          this.deckGroup2.push(this.tempDeck2.slice(i,i+this.groupSizeP2));
+        this.deckRegGroup2 = [];
+        for (let i = 0; i < this.tempRegDeck2.length; i = i+this.groupSizeP2) {
+          this.deckRegGroup2.push(this.tempRegDeck2.slice(i,i+this.groupSizeP2));
         }
 
-        this.printDeckGroup(this.deckGroup1);
+        this.printRegdeckRegGroup(this.deckRegGroup1);
     }
 
     phase3() {
+        //Fill temp decks with half the whole deck, 15 cards each
+        this.regDeck.deck.slice(0,this.regDeck.deck.length/2).forEach(card => {
+            this.tempRegDeck1.push(new PickRegularCard(card))
+        });
+        this.regDeck.deck.slice(this.regDeck.deck.length/2,this.regDeck.deck.length).forEach(card => {
+            this.tempRegDeck2.push(new PickRegularCard(card))
+        });
 
+        console.log(this.tempRegDeck1.length, this.tempRegDeck2.length);
+
+        //Put 3 cards in 5 card groups for each player
+        this.deckRegGroup1 = [];
+        for (let i = 0; i < this.tempRegDeck1.length; i = i+this.groupSizeP1) {
+          this.deckRegGroup1.push(this.tempRegDeck1.slice(i,i+this.groupSizeP1));
+        }
+        this.deckRegGroup2 = [];
+        for (let i = 0; i < this.tempRegDeck2.length; i = i+this.groupSizeP1) {
+          this.deckRegGroup2.push(this.tempRegDeck2.slice(i,i+this.groupSizeP1));
+        }
+
+        /* console.log({deck: this.deckRegGroup1.toString(), activeCards: this.totalCardsActivesIndeckRegGroup(this.deckRegGroup1), 
+            checkMinCards: this.checkMinActiveCards(this.deckRegGroup1)})
+        this.printdeckRegGroup(this.deckRegGroup1); */
     }
 }
