@@ -127,6 +127,16 @@ export class PickBoard {
         }
     }
 
+    confirmPhase2(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
+        if (this.totalCardsActivesInDeckGroup(deckGroup) === this.regCardsPickedP2 &&
+            this.checkMinActiveCards(deckGroup)) {
+                this.pushActiveCardsToDeck(player, deckGroup);
+                this.checkIfPlayersConfirmed(player);
+        }   else {
+            //retorna erro 'vc precisa escolher 7 cartas, com ao menos 1 de cada grupo' sl ou mostra separado
+        }
+    }
+
     checkIfPlayersConfirmed(player: Player) {
         if (player === this.player1) this.p1confirmed = true;
         else this.p2confirmed = true;
@@ -138,28 +148,26 @@ export class PickBoard {
     }
 
     phase2() {
-        //Fill temp decks with half the whole deck, 15 cards each
-        this.regDeck.deck.slice(0,this.regDeck.deck.length/2).forEach(card => {
-            this.tempDeck1.push(new PickRegularCard(card))
-        });
-        this.regDeck.deck.slice(this.regDeck.deck.length/2,this.regDeck.deck.length).forEach(card => {
-            this.tempDeck2.push(new PickRegularCard(card))
-        });
-
         console.log(this.tempDeck1.length, this.tempDeck2.length);
 
-        //Put 3 cards in 5 card groups for each player
+        let tempDeckSwitch = this.tempDeck1;
+        this.tempDeck1 = this.tempDeck2;
+        this.tempDeck2 = tempDeckSwitch;
+
+        //Put 2 cards in 4 card groups for each player, switching temp decks
         this.deckGroup1 = [];
-        for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP1) {
-          this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP1));
+        for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP2) {
+          this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP2));
         }
         this.deckGroup2 = [];
-        for (let i = 0; i < this.tempDeck2.length; i = i+this.groupSizeP1) {
-          this.deckGroup2.push(this.tempDeck2.slice(i,i+this.groupSizeP1));
+        for (let i = 0; i < this.tempDeck2.length; i = i+this.groupSizeP2) {
+          this.deckGroup2.push(this.tempDeck2.slice(i,i+this.groupSizeP2));
         }
 
-        console.log({deck: this.deckGroup1.toString(), activeCards: this.totalCardsActivesInDeckGroup(this.deckGroup1), 
-            checkMinCards: this.checkMinActiveCards(this.deckGroup1)})
         this.printDeckGroup(this.deckGroup1);
+    }
+
+    phase3() {
+
     }
 }
