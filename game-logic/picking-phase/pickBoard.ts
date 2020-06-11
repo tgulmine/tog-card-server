@@ -97,7 +97,16 @@ export class PickBoard {
     pushActiveCardsToDeck(player: Player, deckGroup: Array<Array<PickRegularCard>>) {
         deckGroup.forEach(cardGroup => {
             cardGroup.forEach(card => {
-                if(card.isActive) player.regularDeck.push(card.regularCard);
+                if(card.isActive) {
+                    player.regularDeck.push(card.regularCard);
+                    if (player === this.player1) {
+                        var index = this.tempDeck1.indexOf( card );
+                        this.tempDeck1.splice(index, 0);
+                    } else {
+                        var index = this.tempDeck2.indexOf( card );
+                        this.tempDeck2.splice(index, 0);
+                    }
+                }
             })
         });
     }
@@ -129,6 +138,28 @@ export class PickBoard {
     }
 
     phase2() {
-        //rs
+        //Fill temp decks with half the whole deck, 15 cards each
+        this.regDeck.deck.slice(0,this.regDeck.deck.length/2).forEach(card => {
+            this.tempDeck1.push(new PickRegularCard(card))
+        });
+        this.regDeck.deck.slice(this.regDeck.deck.length/2,this.regDeck.deck.length).forEach(card => {
+            this.tempDeck2.push(new PickRegularCard(card))
+        });
+
+        console.log(this.tempDeck1.length, this.tempDeck2.length);
+
+        //Put 3 cards in 5 card groups for each player
+        this.deckGroup1 = [];
+        for (let i = 0; i < this.tempDeck1.length; i = i+this.groupSizeP1) {
+          this.deckGroup1.push(this.tempDeck1.slice(i,i+this.groupSizeP1));
+        }
+        this.deckGroup2 = [];
+        for (let i = 0; i < this.tempDeck2.length; i = i+this.groupSizeP1) {
+          this.deckGroup2.push(this.tempDeck2.slice(i,i+this.groupSizeP1));
+        }
+
+        console.log({deck: this.deckGroup1.toString(), activeCards: this.totalCardsActivesInDeckGroup(this.deckGroup1), 
+            checkMinCards: this.checkMinActiveCards(this.deckGroup1)})
+        this.printDeckGroup(this.deckGroup1);
     }
 }
