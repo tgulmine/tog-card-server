@@ -7,16 +7,13 @@ export class Board {
     //cards-in-hand
     //cards-in-middle (active)
 
-    constructor() {
+    constructor(player1: Player, player2: Player) {
         this.players = [];
+        this.players.push(player1);
+        this.players.push(player2);
     }
-    start(playerOneName: string, playerTwoName: string) {
-        this.players.push(new Player(playerOneName));
-        this.players.push(new Player(playerTwoName));
-        let d = new FullRegularDeck();
-        d.createDeck();
-        d.shuffleDeck();    
-        //picking phase
-        //split deck
+    start() {
+        console.log('começo');
+        //rs
     }
 }

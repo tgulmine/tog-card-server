@@ -3,6 +3,7 @@ import { FullRegularDeck } from '../fullRegularDeck';
 import { FullRankerDeck } from '../fullRankerDeck';
 import { PickRegularCard } from './pickRegularCard'
 import { PickRankerCard } from './pickRankerCard'
+import { Board } from '../board';
 
 export class PickBoard {
     player1: Player;
@@ -26,6 +27,8 @@ export class PickBoard {
     p1confirmed: boolean;
     p2confirmed: boolean;
     currentPhase: number;
+
+    board: Board;
 
     constructor() {
         //this.player1 = null;
@@ -217,6 +220,7 @@ export class PickBoard {
     phase2() {
         console.log(this.tempRegDeck1.length, this.tempRegDeck2.length);
 
+        //Switch decks
         let tempRegDeckSwitch = this.tempRegDeck1;
         this.tempRegDeck1 = this.tempRegDeck2;
         this.tempRegDeck2 = tempRegDeckSwitch;
@@ -244,17 +248,19 @@ export class PickBoard {
         });
 
         console.log(this.tempRankDeck1.length, this.tempRankDeck2.length);
-
-        /* console.log({deck: this.deckRegGroup1.toString(), activeCards: this.totalCardsActivesIndeckRegGroup(this.deckRegGroup1), 
-            checkMinCards: this.checkMinActiveCards(this.deckRegGroup1)})
-        this.printdeckRegGroup(this.deckRegGroup1); */
     }
 
     phase4() {
-        //rs
+        //Switch decks
+        let tempRankDeckSwitch = this.tempRankDeck1;
+        this.tempRankDeck1 = this.tempRankDeck2;
+        this.tempRankDeck2 = tempRankDeckSwitch;
+
+        console.log(this.tempRankDeck1.length, this.tempRankDeck2.length);
     }
 
     startGame() {
-        //rs
+        this.board = new Board(this.player1, this.player2);
+        this.board.start();
     }
 }
