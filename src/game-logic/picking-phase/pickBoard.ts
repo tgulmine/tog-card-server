@@ -5,40 +5,89 @@ import { PickRegularCard } from './pickRegularCard'
 import { PickRankerCard } from './pickRankerCard'
 import { Board } from '../board';
 
-export class PickBoard {
-    player1: Player;
-    player2: Player;
-    regDeck: FullRegularDeck;
-    rankDeck: FullRankerDeck;
-    tempRegDeck1: Array<PickRegularCard>;
-    tempRegDeck2: Array<PickRegularCard>;
-    tempRankDeck1: Array<PickRankerCard>;
-    tempRankDeck2: Array<PickRankerCard>;
-    deckRegGroup1: Array<Array<PickRegularCard>>;
-    deckRegGroup2: Array<Array<PickRegularCard>>;
+import { Schema, MapSchema, type, ArraySchema } from "@colyseus/schema";
+import { RegularCard } from '../regularCard';
 
+class GroupPickRegularCard extends Schema {
+    @type([PickRegularCard])
+    cards: ArraySchema<PickRegularCard>;
+    constructor() {
+        super();
+        this.cards = new ArraySchema<PickRegularCard>();
+    }
+}
+
+export class PickBoard extends Schema {
+    @type(Player) 
+    player1: Player;
+
+    @type(Player)
+    player2: Player;
+
+    @type(FullRegularDeck)
+    regDeck: FullRegularDeck;
+
+    @type(FullRankerDeck)
+    rankDeck: FullRankerDeck;
+    
+    @type([PickRegularCard])
+    tempRegDeck1: ArraySchema<PickRegularCard>;
+    
+    @type([PickRegularCard])
+    tempRegDeck2: ArraySchema<PickRegularCard>;
+    
+    @type([PickRankerCard])
+    tempRankDeck1: ArraySchema<PickRankerCard>;
+    
+    @type([PickRankerCard])
+    tempRankDeck2: ArraySchema<PickRankerCard>;
+
+    @type([GroupPickRegularCard])
+    deckRegGroup1: ArraySchema<GroupPickRegularCard>;
+
+    @type([GroupPickRegularCard])
+    deckRegGroup2: ArraySchema<GroupPickRegularCard>;
+
+    @type("number")
     regGroupSizeP1: number;
+
+    @type("number")
     regGroupSizeP2: number;
+
+    @type("number")
     regCardsPickedP1: number;
+
+    @type("number")
     regCardsPickedP2: number;
+
+    @type("number")
     rankCardsPickedP1: number;
+
+    @type("number")
     rankCardsPickedP2: number;
 
+    @type("boolean")
     p1confirmed: boolean;
+
+    @type("boolean")
     p2confirmed: boolean;
+
+    @type("number")
     currentPhase: number;
 
+    @type(Board)
     board: Board;
 
     constructor() {
+        super();
         //this.player1 = null;
         //this.player2 = null;
         this.regDeck = new FullRegularDeck;
         this.rankDeck = new FullRankerDeck;
-        this.tempRegDeck1 = [];
-        this.tempRegDeck2 = [];
-        this.tempRankDeck1 = [];
-        this.tempRankDeck2 = [];
+        this.tempRegDeck1 = new ArraySchema<PickRegularCard>();
+        this.tempRegDeck2 = new ArraySchema<PickRegularCard>();
+        this.tempRankDeck1 = new ArraySchema<PickRankerCard>();
+        this.tempRankDeck2 = new ArraySchema<PickRankerCard>();
         this.regGroupSizeP1 = 3;
         this.regGroupSizeP2 = 2;
         this.regCardsPickedP1 = 7;
@@ -60,7 +109,7 @@ export class PickBoard {
         this.phase1();
     }
 
-    totalRegCardsActiveInDeckGroup(deckRegGroup: Array<Array<PickRegularCard>>): number {
+    totalRegCardsActiveInDeckGroup(deckRegGroup: ArraySchema<GroupPickRegularCard>): number {
         let total = 0;
         deckRegGroup.forEach(cardGroup => {
             total +=  this.activeRegCardsInCardGroup(cardGroup)
@@ -68,7 +117,7 @@ export class PickBoard {
         return total;
     }
 
-    checkMinActiveRegCards(deckRegGroup: Array<Array<PickRegularCard>>): boolean {
+    checkMinActiveRegCards(deckRegGroup: ArraySchema<GroupPickRegularCard>): boolean {
         let total = 0;
         deckRegGroup.forEach(cardGroup => {
             if(this.activeRegCardsInCardGroup(cardGroup) > 0) total++;
@@ -77,13 +126,13 @@ export class PickBoard {
         else return false;
     }
 
-    activeRegCardsInCardGroup(cardGroup: Array<PickRegularCard>) {
-        return cardGroup.filter(card => card.isActive).length;
+    activeRegCardsInCardGroup(cardGroup: GroupPickRegularCard) {
+        return cardGroup.cards.filter(card => card.isActive).length;
     }
 
-    pushActiveRegCardsToDeck(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+    pushActiveRegCardsToDeck(player: Player, deckRegGroup: Array<GroupPickRegularCard>) {
         deckRegGroup.forEach(cardGroup => {
-            cardGroup.forEach(card => {
+            cardGroup.cards.forEach(card => {
                 if(card.isActive) {
                     player.regularDeck.push(card.regularCard);
                     if (player === this.player1) {
@@ -98,7 +147,7 @@ export class PickBoard {
         });
     }
 
-    pushActiveRankCardsToDeck(player: Player, tempRankDeck: Array<PickRankerCard>) {
+    pushActiveRankCardsToDeck(player: Player, tempRankDeck: ArraySchema<PickRankerCard>) {
         tempRankDeck.forEach(card => {
                 if(card.isActive) {
                     player.rankerDeck.push(card.rankerCard);
@@ -113,15 +162,15 @@ export class PickBoard {
         });
     }
 
-    totalRankCardsActiveInTempDeck(tempRankDeck: Array<PickRankerCard>): number {
+    totalRankCardsActiveInTempDeck(tempRankDeck: ArraySchema<PickRankerCard>): number {
         let total = 0;
         total +=  tempRankDeck.filter(card => card.isActive).length;
         return total;
     }
 
-    printRegDeckGroup(deckRegGroup: Array<Array<PickRegularCard>>) {
+    printRegDeckGroup(deckRegGroup: ArraySchema<GroupPickRegularCard>) {
         deckRegGroup.forEach((cardGroup, index) => {
-            console.log('Group ' + (index+1) + ': ' + cardGroup);
+            console.log('Group ' + (index+1) + ': ' + cardGroup.cards);
         });
     }
 
@@ -139,7 +188,7 @@ export class PickBoard {
         }
     }
 
-    confirmPhase1(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+    confirmPhase1(player: Player, deckRegGroup: ArraySchema<GroupPickRegularCard>) {
         if (this.totalRegCardsActiveInDeckGroup(deckRegGroup) === this.regCardsPickedP1 &&
             this.checkMinActiveRegCards(deckRegGroup)) {
                 this.pushActiveRegCardsToDeck(player, deckRegGroup);
@@ -149,7 +198,7 @@ export class PickBoard {
         }
     }
 
-    confirmPhase2(player: Player, deckRegGroup: Array<Array<PickRegularCard>>) {
+    confirmPhase2(player: Player, deckRegGroup: ArraySchema<GroupPickRegularCard>) {
         if (this.totalRegCardsActiveInDeckGroup(deckRegGroup) === this.regCardsPickedP2 &&
             this.checkMinActiveRegCards(deckRegGroup)) {
                 this.pushActiveRegCardsToDeck(player, deckRegGroup);
@@ -159,7 +208,7 @@ export class PickBoard {
         }
     }
 
-    confirmPhase3(player: Player, tempRankDeck: Array<PickRankerCard>) {
+    confirmPhase3(player: Player, tempRankDeck: ArraySchema<PickRankerCard>) {
         if (this.totalRankCardsActiveInTempDeck(tempRankDeck) === this.rankCardsPickedP1) {
                 this.pushActiveRankCardsToDeck(player, tempRankDeck);
                 this.checkIfPlayersConfirmed(player);
@@ -168,7 +217,7 @@ export class PickBoard {
         }
     }
 
-    confirmPhase4(player: Player, tempRankDeck: Array<PickRankerCard>) {
+    confirmPhase4(player: Player, tempRankDeck: ArraySchema<PickRankerCard>) {
         if (this.totalRankCardsActiveInTempDeck(tempRankDeck) === this.rankCardsPickedP2) {
                 this.pushActiveRankCardsToDeck(player, tempRankDeck);
                 this.checkIfPlayersConfirmed(player);
@@ -203,13 +252,21 @@ export class PickBoard {
         console.log(this.tempRegDeck1.length, this.tempRegDeck2.length);
 
         //Put 3 cards in 5 card groups for each player
-        this.deckRegGroup1 = [];
+        this.deckRegGroup1 = new ArraySchema<GroupPickRegularCard>();
         for (let i = 0; i < this.tempRegDeck1.length; i = i+this.regGroupSizeP1) {
-          this.deckRegGroup1.push(this.tempRegDeck1.slice(i,i+this.regGroupSizeP1));
+            let group = new GroupPickRegularCard();
+            group.cards[0] = this.tempRegDeck1[i];
+            group.cards[1] = this.tempRegDeck1[i+1];
+            group.cards[2] = this.tempRegDeck1[i+2];
+            this.deckRegGroup1.push(group);    
         }
-        this.deckRegGroup2 = [];
+        this.deckRegGroup2 = new ArraySchema<GroupPickRegularCard>();
         for (let i = 0; i < this.tempRegDeck2.length; i = i+this.regGroupSizeP1) {
-          this.deckRegGroup2.push(this.tempRegDeck2.slice(i,i+this.regGroupSizeP1));
+            let group = new GroupPickRegularCard();
+            group.cards[0] = this.tempRegDeck2[i];
+            group.cards[1] = this.tempRegDeck2[i+1];
+            group.cards[2] = this.tempRegDeck2[i+2];
+            this.deckRegGroup2.push(group); 
         }
 
         console.log({deck: this.deckRegGroup1.toString(), activeCards: this.totalRegCardsActiveInDeckGroup(this.deckRegGroup1), 
@@ -226,13 +283,19 @@ export class PickBoard {
         this.tempRegDeck2 = tempRegDeckSwitch;
 
         //Put 2 cards in 4 card groups for each player, switching temp decks
-        this.deckRegGroup1 = [];
+        this.deckRegGroup1 = new ArraySchema<GroupPickRegularCard>();
         for (let i = 0; i < this.tempRegDeck1.length; i = i+this.regGroupSizeP2) {
-          this.deckRegGroup1.push(this.tempRegDeck1.slice(i,i+this.regGroupSizeP2));
+            let group = new GroupPickRegularCard();
+            group.cards[0] = this.tempRegDeck1[i];
+            group.cards[1] = this.tempRegDeck1[i+1];
+            this.deckRegGroup1.push(group); 
         }
-        this.deckRegGroup2 = [];
+        this.deckRegGroup2 = new ArraySchema<GroupPickRegularCard>();
         for (let i = 0; i < this.tempRegDeck2.length; i = i+this.regGroupSizeP2) {
-          this.deckRegGroup2.push(this.tempRegDeck2.slice(i,i+this.regGroupSizeP2));
+            let group = new GroupPickRegularCard();
+            group.cards[0] = this.tempRegDeck2[i];
+            group.cards[1] = this.tempRegDeck2[i+1];
+            this.deckRegGroup2.push(group); 
         }
 
         this.printRegDeckGroup(this.deckRegGroup1);

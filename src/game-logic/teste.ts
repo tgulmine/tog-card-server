@@ -1,8 +1,8 @@
-import { RegularCard } from './game-logic/regularCard';
-import { FullRegularDeck } from './game-logic/fullRegularDeck';
-import { RankerCard } from './game-logic/rankerCard';
-import { FullRankerDeck } from './game-logic/fullRankerDeck';
-import { PickBoard } from './game-logic/picking-phase/pickBoard'
+import { RegularCard } from './regularCard';
+import { FullRegularDeck } from './fullRegularDeck';
+import { RankerCard } from './rankerCard';
+import { FullRankerDeck } from './fullRankerDeck';
+import { PickBoard } from './picking-phase/pickBoard'
 
 export class Teste {
     RegularDeck = new FullRegularDeck();

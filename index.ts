@@ -5,9 +5,9 @@ import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 // import socialRoutes from "@colyseus/social/express"
 
-import { MyRoom } from "./MyRoom";
+import { GameRoom } from "./src/colyseus/GameRoom";
 
-import { Teste } from "./teste";
+import { Teste } from "./src/game-logic/teste";
 
 const port = Number(process.env.PORT || 2567);
 const app = express()
@@ -21,7 +21,7 @@ const gameServer = new Server({
 });
 
 // register your room handlers
-gameServer.define('my_room', MyRoom);
+gameServer.define('game_room', GameRoom);
 
 /**
  * Register @colyseus/social routes

@@ -30,12 +30,15 @@ import wangnam from '../data/regulars/wangnam.json';
 import xiaxia from '../data/regulars/xiaxia.json';
 
 import { RegularCard } from './regularCard';
+import { Schema, MapSchema, type, ArraySchema } from "@colyseus/schema";
 
-export class FullRegularDeck {
-  deck: Array<RegularCard>;
+export class FullRegularDeck extends Schema {
+  @type([RegularCard])
+  deck: ArraySchema<RegularCard>;
 
   constructor() {
-    this.deck = [];
+    super();
+    this.deck = new ArraySchema<RegularCard>();
   }
 
   addCard(reg: any) {

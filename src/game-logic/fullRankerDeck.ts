@@ -10,12 +10,15 @@ import urek from '../data/rankers/urek.json';
 import yuri from '../data/rankers/yuri.json';
 
 import { RankerCard } from './RankerCard';
+import { Schema, MapSchema, type, ArraySchema } from "@colyseus/schema";
 
-export class FullRankerDeck {
-  deck: Array<RankerCard>;
+export class FullRankerDeck extends Schema {
+  @type([RankerCard])
+  deck: ArraySchema<RankerCard>;
 
   constructor() {
-    this.deck = [];
+    super();
+    this.deck = new ArraySchema<RankerCard>();
   }
 
   addCard(reg: any) {
